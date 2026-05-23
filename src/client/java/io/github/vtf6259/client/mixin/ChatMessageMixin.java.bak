@@ -1,0 +1,17 @@
+package io.github.vtf6259.client.mixin;
+
+import net.minecraft.network.chat.PlayerChatMessage;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(PlayerChatMessage.class)
+public class ChatMessageMixin {
+    @Inject(method = "system(Ljava/lang/String;)Lnet/minecraft/network/chat/PlayerChatMessage;", at = @At(value = "HEAD"))
+    private static void system(String message, CallbackInfoReturnable<PlayerChatMessage> info) {
+        System.out.println("Hello, Mixins!");
+     	System.out.println(message);
+    } 
+}
+
