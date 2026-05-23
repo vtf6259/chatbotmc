@@ -19,14 +19,41 @@ public class ChatbotClient implements ClientModInitializer {
 		if(m.contains("FAI!help") && !m.contains("Commands")) {
 		  EX.schedule(() -> {
 			mc.execute(() -> {
-		  		Minecraft.getInstance().player.connection.sendChat("Commands are: FAI!help FAI!ping ");	
+		  		Minecraft.getInstance().player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint");	
 			});
 		  }, 2, TimeUnit.SECONDS);	
 		}
 		if(m.contains("FAI!ping") && !m.contains("Commands")) {
 			EX.schedule(() -> {
 				mc.execute(() -> {
-			  		Minecraft.getInstance().player.connection.sendChat("Ping");	
+			  		Minecraft.getInstance().player.connection.sendChat("Pong");	
+				});
+			}, 2, TimeUnit.SECONDS);			
+		}
+		if(m.contains("FAI!encode") && !m.contains("Commands")) {
+			EX.schedule(() -> {
+				mc.execute(() -> {
+					String token = "FAI!encode ";
+					int idx = m.indexOf(token);
+					String toencode = (idx >= 0) ? m.substring(idx + token.length()) : "";
+					LOGGER.info(toencode);
+					String result = "";
+					for (int v = 0; v < toencode.length(); v++) {
+						char i = toencode.charAt(v);
+						int val = (int)i;
+						String chr = val + "";
+						int leni = chr.length();
+						String len = leni + "";
+						result = result + len + chr;
+					}
+					Minecraft.getInstance().player.connection.sendChat(result);
+				});
+			}, 2, TimeUnit.SECONDS);			
+		}
+		if(m.contains("FAI!hint") && !m.contains("Commands")) {
+			EX.schedule(() -> {
+				mc.execute(() -> {
+			  		Minecraft.getInstance().player.connection.sendChat("Hint to decode the output of the encode command: c = str(ord(i)) ret = len(c) + c");	
 				});
 			}, 2, TimeUnit.SECONDS);			
 		}
