@@ -19,7 +19,7 @@ public class ChatbotClient implements ClientModInitializer {
 		if(m.contains("FAI!help") && !m.contains("Commands")) {
 		  EX.schedule(() -> {
 			mc.execute(() -> {
-		  		Minecraft.getInstance().player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint");	
+		  		Minecraft.getInstance().player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint FAI!code");	
 			});
 		  }, 2, TimeUnit.SECONDS);	
 		}
@@ -54,6 +54,13 @@ public class ChatbotClient implements ClientModInitializer {
 			EX.schedule(() -> {
 				mc.execute(() -> {
 			  		Minecraft.getInstance().player.connection.sendChat("Hint to decode the output of the encode command: c = str(ord(i)) ret = len(c) + c");	
+				});
+			}, 2, TimeUnit.SECONDS);			
+		}
+		if(m.contains("FAI!code") && !m.contains("Commands")) {
+			EX.schedule(() -> {
+				mc.execute(() -> {
+					Minecraft.getInstance().player.connection.sendChat("https://github.com/vtf6259/chatbotmc");	
 				});
 			}, 2, TimeUnit.SECONDS);			
 		}
