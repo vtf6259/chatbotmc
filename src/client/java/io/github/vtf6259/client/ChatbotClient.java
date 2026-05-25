@@ -62,7 +62,7 @@ public class ChatbotClient implements ClientModInitializer {
 				mc.execute(() -> {
 					Minecraft.getInstance().player.connection.sendChat("https://github.com/vtf6259/chatbotmc");	
 				});
-			}, 2, TimeUnit.SECONDS);			
+			}, 2, TimeUnit.SECONDS);
 		}
 	}
 	@Override
