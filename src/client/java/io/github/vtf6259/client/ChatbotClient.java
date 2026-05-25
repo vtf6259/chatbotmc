@@ -15,11 +15,12 @@ public class ChatbotClient implements ClientModInitializer {
 	private static final Logger LOGGER = LoggerFactory.getLogger("chatbot-client");
 	private static final ScheduledExecutorService EX = Executors.newSingleThreadScheduledExecutor();
 	private Minecraft mc = Minecraft.getInstance();
+	private boolean afk = false;
 	private void handleMessage(String m) {
 		if(m.contains("FAI!help") && !m.contains("Commands")) {
 		  EX.schedule(() -> {
 			mc.execute(() -> {
-		  		Minecraft.getInstance().player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint FAI!code");	
+		  		Minecraft.getInstance().player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint FAI!code FAI!afk");	
 			});
 		  }, 2, TimeUnit.SECONDS);	
 		}
@@ -64,12 +65,27 @@ public class ChatbotClient implements ClientModInitializer {
 				});
 			}, 2, TimeUnit.SECONDS);
 		}
+		if(m.contains("FAI!afk") && !m.contains("Commands")) {
+			EX.schedule(() -> {
+				mc.execute(() -> {
+					if(afk) {
+						mc.player.connection.sendChat("I am afk");
+					} else {
+						mc.player.connection.sendChat("I am not afk");
+					}
+				});
+			}, 2, TimeUnit.SECONDS);
+		}
 	}
 	@Override
 	public void onInitializeClient() {
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
 			dispatcher.register(ClientCommandManager.literal("helloworld").executes(context -> {
 				context.getSource().getPlayer().connection.sendChat("Hello, World!");
+				return 1;
+			}));
+			dispatcher.register(ClientCommandManager.literal("afk").executes(context -> {
+				this.afk = !this.afk;
 				return 1;
 			}));
 		});
