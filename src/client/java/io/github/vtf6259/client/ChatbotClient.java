@@ -15,13 +15,14 @@ import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 public class ChatbotClient implements ClientModInitializer {
 	private static final Logger LOGGER = LoggerFactory.getLogger("chatbot-client");
 	private static final ScheduledExecutorService EX = Executors.newSingleThreadScheduledExecutor();
+	private static final String verStr = "v1.1.1: Me like versions";
 	private Minecraft mc = Minecraft.getInstance();
 	private boolean afk = false;
 	private void handleMessage(String m) {
 		if(m.contains("FAI!help") && !m.contains("Commands")) {
 		  EX.schedule(() -> {
 			mc.execute(() -> {
-		  		mc.player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint FAI!code FAI!afk FAI!banana");	
+		  		mc.player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint FAI!code FAI!afk FAI!banana FAI!ver");
 			});
 		  }, 2, TimeUnit.SECONDS);	
 		}
@@ -63,6 +64,13 @@ public class ChatbotClient implements ClientModInitializer {
 			EX.schedule(() -> {
 				mc.execute(() -> {
 					mc.player.connection.sendChat("https://github.com/vtf6259/chatbotmc");	
+				});
+			}, 2, TimeUnit.SECONDS);
+		}
+		if(m.contains("FAI!ver") && !m.contains("Commands")) {
+			EX.schedule(() -> {
+				mc.execute(() -> {
+					mc.player.connection.sendChat("chatbotmc version: "+verStr);	
 				});
 			}, 2, TimeUnit.SECONDS);
 		}
