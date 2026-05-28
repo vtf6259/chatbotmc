@@ -1,5 +1,6 @@
 package io.github.vtf6259.client;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,14 +21,14 @@ public class ChatbotClient implements ClientModInitializer {
 		if(m.contains("FAI!help") && !m.contains("Commands")) {
 		  EX.schedule(() -> {
 			mc.execute(() -> {
-		  		Minecraft.getInstance().player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint FAI!code FAI!afk");	
+		  		mc.player.connection.sendChat("Commands are: FAI!help FAI!ping FAI!encode FAI!hint FAI!code FAI!afk FAI!banana");	
 			});
 		  }, 2, TimeUnit.SECONDS);	
 		}
 		if(m.contains("FAI!ping") && !m.contains("Commands")) {
 			EX.schedule(() -> {
 				mc.execute(() -> {
-			  		Minecraft.getInstance().player.connection.sendChat("Pong");	
+			  		mc.player.connection.sendChat("Pong");	
 				});
 			}, 2, TimeUnit.SECONDS);			
 		}
@@ -47,21 +48,21 @@ public class ChatbotClient implements ClientModInitializer {
 						String len = leni + "";
 						result = result + len + chr;
 					}
-					Minecraft.getInstance().player.connection.sendChat(result);
+					mc.player.connection.sendChat(result);
 				});
 			}, 2, TimeUnit.SECONDS);			
 		}
 		if(m.contains("FAI!hint") && !m.contains("Commands")) {
 			EX.schedule(() -> {
 				mc.execute(() -> {
-			  		Minecraft.getInstance().player.connection.sendChat("Hint to decode the output of the encode command: c = str(ord(i)) ret = len(c) + c");	
+			  		mc.player.connection.sendChat("Hint to decode the output of the encode command: c = str(ord(i)) ret = len(c) + c");	
 				});
 			}, 2, TimeUnit.SECONDS);			
 		}
 		if(m.contains("FAI!code") && !m.contains("Commands")) {
 			EX.schedule(() -> {
 				mc.execute(() -> {
-					Minecraft.getInstance().player.connection.sendChat("https://github.com/vtf6259/chatbotmc");	
+					mc.player.connection.sendChat("https://github.com/vtf6259/chatbotmc");	
 				});
 			}, 2, TimeUnit.SECONDS);
 		}
@@ -75,6 +76,24 @@ public class ChatbotClient implements ClientModInitializer {
 					}
 				});
 			}, 2, TimeUnit.SECONDS);
+		}
+		if(m.contains("FAI!banana") && !m.contains("Commands")) {
+			EX.schedule(() -> {
+				mc.execute(() -> {
+					int randomNum = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+					switch (randomNum) {
+						case 1:
+							mc.player.connection.sendChat("Banana");
+							break;
+						case 2:
+							mc.player.connection.sendChat("Chicken");
+							break;
+						case 3:
+							mc.player.connection.sendChat("Chicken Banana");
+							break;
+				}
+			});
+		}, 2, TimeUnit.SECONDS);
 		}
 	}
 	@Override
