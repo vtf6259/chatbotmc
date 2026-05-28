@@ -15,7 +15,7 @@ import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 public class ChatbotClient implements ClientModInitializer {
 	private static final Logger LOGGER = LoggerFactory.getLogger("chatbot-client");
 	private static final ScheduledExecutorService EX = Executors.newSingleThreadScheduledExecutor();
-	private static final String verStr = "v1.1.1: Me like versions";
+	private static final String verStr = "v1.1.2: Resolve FAI! encode DOS issue";
 	private Minecraft mc = Minecraft.getInstance();
 	private boolean afk = false;
 	private void handleMessage(String m) {
@@ -48,6 +48,10 @@ public class ChatbotClient implements ClientModInitializer {
 						int leni = chr.length();
 						String len = leni + "";
 						result = result + len + chr;
+					}
+					if(result.length() > 250) {
+						mc.player.connection.sendChat("Your encoded message would have been too big.");
+						return;
 					}
 					mc.player.connection.sendChat(result);
 				});
